@@ -6,8 +6,11 @@ boot.o: boot.s
 kernel.o: kernel.c
 	i686-elf-gcc -c kernel.c -o kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
-Gallia: boot.o kernel.o
-	i686-elf-gcc -T linker.ld -o Gallia -ffreestanding -O2 -nostdlib boot.o kernel.o -lgcc
+keyboard.o: keyboard.S
+	i686-elf-gcc -c keyboard.S -o keyboard.o
+
+Gallia: boot.o kernel.o keyboard.o
+	i686-elf-gcc -T linker.ld -o Gallia -ffreestanding -O2 -nostdlib boot.o kernel.o keyboard.o -lgcc
 
 run :
 	qemu-system-i386 -kernel Gallia

@@ -42,6 +42,14 @@ size_t strlen(const char* str)
 #define VGA_HEIGHT 25
 #define VGA_MEMORY 0xB8000
 
+// Scancode port: 0x60; Status port: 0x64
+/*
+ * uint8_t Status = keyboard_readStatus; 
+ * if (Status & 0x1)  
+*/
+uint8_t keyboard_read(void);
+uint8_t keyboard_readStatus(void);
+
 size_t terminalRow;
 size_t terminalColumn;
 uint8_t terminalColor;
@@ -108,4 +116,13 @@ void kernel_main(void)
 
     terminal_WriteString("HelloWorld(Console.WriteLine)\n");
     terminal_WriteString("THIS IS NOT A KIRNIL");
+
+    while(1)
+    {
+        uint8_t KeyStatus = keyboard_readStatus();
+        if (KeyStatus & 0x1)
+        {
+            terminal_WriteString("Meow");
+        }
+    }
 }
