@@ -120,6 +120,7 @@ void kernel_main(void)
     while(1)
     {
         uint8_t KeyStatus = keyboard_readStatus();
+
         if (KeyStatus & 0x1)
         {
             terminal_WriteString("Meow");
