@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "io.h"
+
 enum Vga_Color {
     VGA_BLACK = 0,
     VGA_BLUE = 1,
