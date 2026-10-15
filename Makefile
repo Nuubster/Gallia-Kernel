@@ -4,7 +4,7 @@ CFLAGS	= -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Ikernel/include
 build: Gallia
 
 boot.o: kernel/arch/i386/boot.s
-	$(CC) kernel/arch/i386/boot.s -o boot.o
+	$(CC) -c kernel/arch/i386/boot.s -o boot.o
 
 kernel.o: kernel/src/kernel.c
 	$(CC) $(CFLAGS) -c kernel/src/kernel.c -o kernel.o 

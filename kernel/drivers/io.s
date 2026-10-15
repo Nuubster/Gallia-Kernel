@@ -1,3 +1,4 @@
+.intel_syntax noprefix
 .global outb
 
 outb:
