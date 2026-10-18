@@ -57,7 +57,7 @@ size_t terminalColumn;
 uint8_t terminalColor;
 uint16_t* terminalBuffer = (uint16_t*)VGA_MEMORY;
 
-void terminal_Initialize(void)
+void terminal_initialize(void)
 {
     terminalRow = 0;
     terminalColumn = 0;
@@ -74,25 +74,27 @@ void terminal_Initialize(void)
     }
 }
 
-void terminal_SetColor(uint8_t color)
+void terminal_setColor(uint8_t color)
 {
     terminalColor = color;
 }
 
-void terminal_Putentryat(char c, uint8_t color, size_t x, size_t y)
+void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
     terminalBuffer[index] = VgaEntry(c, color);
 }
 
-void terminal_PutChar(char c)
+void terminal_putChar(char c)
 {
     // quick check for newline, will  be changed in the future
-    if(c == '\n') { 
-        terminal_Putentryat(c, terminalColor, 0, terminalRow + 1); 
+    if(c == '\n') 
+    { 
+        terminal_putentryat(c, terminalColor, 0, terminalRow + 1); 
         terminalRow++; terminalColumn = 0;
-        return;   }
-    else { terminal_Putentryat(c, terminalColor, terminalColumn, terminalRow); }
+        return;   
+    }
+    else { terminal_putentryat(c, terminalColor, terminalColumn, terminalRow); }
 
     if (++terminalColumn == VGA_WIDTH) {
         terminalColumn = 0;
@@ -101,23 +103,26 @@ void terminal_PutChar(char c)
     }
 }
 
-void terminal_Write(const char* data, size_t size)
+void terminal_write(const char* data, size_t size)
 {
     for (size_t i = 0; i < size; i++)
-        terminal_PutChar(data[i]);
+        terminal_putChar(data[i]);
 }
 
-void terminal_WriteString(const char* data)
+void terminal_writeString(const char* data)
 {
-    terminal_Write(data, strlen(data));
+    terminal_write(data, strlen(data));
 }
+
+char ScancodeToChar[7] = {'0', '0', '1', '2', '3', '4', '5'};
 
 void kernel_main(void)
 {
-    terminal_Initialize();
+    terminal_initialize();
 
-    terminal_WriteString("HelloWorld(Console.WriteLine)\n");
-    terminal_WriteString("THIS IS NOT A KIRNIL");
+    terminal_writeString("HelloWorld(Console.WriteLine)\n");
+    terminal_writeString("THIS IS NOT A KIRNIL\n");
+    terminal_writeString("1234\n");
 
     while(1)
     {
@@ -125,7 +130,16 @@ void kernel_main(void)
 
         if (KeyStatus & 0x1)
         {
-            terminal_WriteString("Meow");
+            unsigned char Scancode = keyboard_read();
+            char charPressed = ScancodeToChar[Scancode];
+            terminal_putChar(charPressed);
+
+            /*
+            if(Scancode == 0x1E)
+            {
+                terminal_writeString("a");
+            } 
+            */
         }
     }
 }
