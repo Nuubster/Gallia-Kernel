@@ -5,6 +5,7 @@
 #include "io.h"
 #include "terminal.h"
 #include "conf.h"
+#include "gdt.h"
 
 // Scancode port: 0x60; Status port: 0x64
 uint8_t keyboard_read(void);
@@ -16,6 +17,7 @@ char ScancodeToChar[256] = {'\0', '\0', '1', '2', '3', '4', '5', '6', '7', '8', 
 
 void kernel_main(void)
 {
+    GDT_init();
     terminal_initialize();
     bool ShiftPressed = false;
     bool ShiftReleased = true;
