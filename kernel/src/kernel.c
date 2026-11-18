@@ -27,6 +27,14 @@ void kernel_main(void)
     terminal_writeString("HelloWorld(Console.WriteLine)\n");
     terminal_writeString("THIS IS NOT A KIRNIL\n");
     terminal_writeString("1234\n");
+    int a = 1;
+    int b = 0;
+    asm volatile (
+            "divl %%ebx"
+            :
+            : "a"(a), "b"(b)
+            : "edx"
+            );
 
     while(1)
     {
@@ -39,7 +47,9 @@ void kernel_main(void)
                 ShiftPressed = true; ShiftReleased = false;
             }
             char charPressed = ScancodeToChar[Scancode]; 
-            if (ShiftPressed == true && ShiftReleased == false && charPressed != ScancodeToChar[0x2A]) charPressed -= 0x20;
+            if (ShiftPressed == true && ShiftReleased == false && charPressed != ScancodeToChar[0x2A]) 
+            { charPressed -= 0x20; }
+                // int x = 1/0; 
             terminal_putChar(charPressed);
 
             if (Scancode == 0xAA) { ShiftPressed = false; ShiftReleased = true; }

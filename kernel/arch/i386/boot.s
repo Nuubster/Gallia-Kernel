@@ -20,7 +20,7 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-    mov $stack_top, %esp // Stack initialized?
+    mov $stack_top, %esp # Stack initialized?
     call kernel_main
     cli
 1:  hlt

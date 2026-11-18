@@ -1,6 +1,8 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
+#include <stddef.h>
+
 enum Vga_Color {
     VGA_BLACK = 0,
     VGA_BLUE = 1,
