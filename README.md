@@ -1,4 +1,4 @@
-# Gallia
+# KINK ( KINK Is Not a KIRNIL )
 ## An open-source barebones Kernel
 ### made exclusively for educational purposes
 

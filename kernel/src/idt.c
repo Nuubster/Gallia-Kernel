@@ -37,20 +37,20 @@ void set_idt_entry(uint8_t vector, void (*handler)(void), uint8_t dpl)
 void load_idt(void* idt_addr)
 {
     struct idtr idt_reg;
-    idt_reg.limit = 256 * 8 - 1;    // 0x7FF NOT 0xFFF
+    idt_reg.limit = sizeof(idt) - 1;    // 0x7FF NOT 0xFFF
     idt_reg.base = (uint32_t)idt_addr;
     asm volatile("lidt %0" :: "m"(idt_reg));
 }
 
-void idt_init(void)
+void IDT_init(void)
 {
     // Gives every vector the fallback handler
-    for (unsigned int i = 0; i < IDT_ENTRIES; i++)
+    for (unsigned int i = 0; i < (sizeof(idt) / sizeof(idt[0])); i++)
     {   set_idt_entry(i, default_interrupt_handler, 0); }
 
     // Replaces the first 32 entries with CPU exception handlers
     for (unsigned int i = 0; i < 32; i++)
     {   set_idt_entry(i, isr_stub_table[i], 0); }
 
-    load_idt();
+    load_idt(&idt[0]);
 }
